@@ -32,6 +32,17 @@ class Build:
 
 
   def save(self) -> None:
+    with open('version.json', 'r+', encoding='utf-8') as file:
+      try:
+        data = json.load(file)
+      except json.JSONDecodeError:
+        data = {}
+
+      data[self.server] = self.version
+      file.seek(0)
+      json.dump(data, file, indent=2)
+      file.truncate()
+
     with open(f"{self.server}.json", 'w', encoding='utf-8') as file:
       json.dump(asdict(self), file, indent=2)
 

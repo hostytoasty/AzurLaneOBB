@@ -79,5 +79,9 @@ def extract_xapk(source: Path, direct: bool = True) -> Path:
       print(f"Removing {obb_path}")
       obb_path.unlink()
 
+  # remove bin
+  if Path(target, 'bin').exists():
+    shutil.rmtree(Path(target, 'bin'))
+
   print('Task completed')
   return target

@@ -31,5 +31,5 @@ jobs:
         uses: EndBug/add-and-commit@v9.0.0
         with:
           author_name: ${{ github.actor }}
-          author_email: ${{ github.actor }}@users.noreply.github.com
+          author_email: ${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com
           message: ${{ steps.version.outputs.version }}
