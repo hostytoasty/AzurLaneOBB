@@ -1,0 +1,35 @@
+name: Check and update OBB
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 1 * *"
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python Depedencies
+        run: pip install -r requirements.txt
+
+      - name: Run Scripts
+        run: python main.py --direct
+
+      - name: Check Version
+        id: version
+        run: echo "version=$(cat EN/version.txt)" >> $GITHUB_OUTPUT
+
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v9.0.0
+        with:
+          author_name: ${{ github.actor }}
+          author_email: ${{ github.actor }}@users.noreply.github.com
+          message: ${{ steps.version.outputs.version }}
